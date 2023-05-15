@@ -14,11 +14,11 @@ myReceiptUrl = config.RECEIPT_URL
 
 # use form recognizer client to recognize the receipt from myReceiptUrl
 poller = form_recognizer_client.begin_recognize_receipts_from_url(myReceiptUrl)
-receipts = poller.result()
+receiptItems = poller.result()
 
 # loop through results and extract data from results
-for receipt in receipts:
-    for name, field in receipt.fields.items():
+for item in receiptItems:
+    for name, field in item.fields.items():
         if name == "Items":
             print("Receipt Items:")
             for idx, items in enumerate(field.value):
@@ -26,7 +26,6 @@ for receipt in receipts:
                 for item_name, item in items.value.items():
                     print("..... {}: {}  - confidence {}".format(
                         item_name, item.value, item.confidence))
-            
         else:
             print("{}: {} has confidence {}\n".format(
                 name, field.value, field.confidence))
